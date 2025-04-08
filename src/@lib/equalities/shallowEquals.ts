@@ -1,6 +1,4 @@
-function isObject(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object";
-}
+import { isObject } from "../utils/typeCheck.ts";
 
 export function shallowEquals<T>(objA: T, objB: T): boolean {
   if (Array.isArray(objA) && Array.isArray(objB)) {
