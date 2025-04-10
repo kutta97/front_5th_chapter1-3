@@ -1,4 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
+import { useCallback } from "../@lib";
 import { Notification } from "../types/notification.ts";
 import NotificationSystem from "../components/NotificationSystem.tsx";
 
@@ -25,20 +26,26 @@ const useNotificationContext = () => {
 const NotificationProvider = ({ children }: PropsWithChildren) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const addNotification = (message: string, type: Notification["type"]) => {
-    const newNotification: Notification = {
-      id: Date.now(),
-      message,
-      type,
-    };
-    setNotifications((prev) => [...prev, newNotification]);
-  };
+  const addNotification = useCallback(
+    (message: string, type: Notification["type"]) => {
+      const newNotification: Notification = {
+        id: Date.now(),
+        message,
+        type,
+      };
+      setNotifications((prev) => [...prev, newNotification]);
+    },
+    [setNotifications],
+  );
 
-  const removeNotification = (id: number) => {
-    setNotifications((prev) =>
-      prev.filter((notification) => notification.id !== id),
-    );
-  };
+  const removeNotification = useCallback(
+    (id: number) => {
+      setNotifications((prev) =>
+        prev.filter((notification) => notification.id !== id),
+      );
+    },
+    [setNotifications],
+  );
 
   return (
     <NotificationContext.Provider
