@@ -2,18 +2,23 @@ import { DependencyList } from "react";
 import { shallowEquals } from "../equalities";
 import { useRef } from "./useRef";
 
+const UNINITIALIZED = Symbol("UNINITIALIZED");
+
 export function useMemo<T>(
   factory: () => T,
   _deps: DependencyList,
   _equals = shallowEquals,
 ): T {
-  const valueRef = useRef<T | null>(null);
-  const dependencyRef = useRef<DependencyList | null>(null);
+  const valueRef = useRef<T | typeof UNINITIALIZED>(UNINITIALIZED);
+  const dependencyRef = useRef<DependencyList>([]);
 
-  if (valueRef.current === null || !_equals(dependencyRef.current, _deps)) {
+  if (
+    valueRef.current === UNINITIALIZED ||
+    !_equals(dependencyRef.current, _deps)
+  ) {
     valueRef.current = factory();
     dependencyRef.current = _deps;
   }
 
-  return valueRef.current;
+  return valueRef.current as T;
 }
