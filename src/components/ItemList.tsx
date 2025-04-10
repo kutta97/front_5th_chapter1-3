@@ -1,18 +1,7 @@
 import { useState } from "react";
 import { renderLog } from "../utils.ts";
 import { useThemeContext } from "../contexts/themeContext.tsx";
-import { Item } from "../types/item.ts";
 import { useItemListContext } from "../contexts/itemListContext.tsx";
-
-const CommodityItem = ({ theme, item }: { theme: string; item: Item }) => {
-  return (
-    <li
-      className={`p-2 rounded shadow ${theme === "light" ? "bg-white text-black" : "bg-gray-700 text-white"}`}
-    >
-      {item.name} - {item.category} - {item.price.toLocaleString()}원
-    </li>
-  );
-};
 
 const ItemList = () => {
   renderLog("ItemList rendered");
@@ -59,7 +48,12 @@ const ItemList = () => {
       </ul>
       <ul className="space-y-2">
         {filteredItems.map((item, index) => (
-          <CommodityItem theme={theme} key={index} item={item} />
+          <li
+            key={index}
+            className={`p-2 rounded shadow ${theme === "light" ? "bg-white text-black" : "bg-gray-700 text-white"}`}
+          >
+            {item.name} - {item.category} - {item.price.toLocaleString()}원
+          </li>
         ))}
       </ul>
     </div>
