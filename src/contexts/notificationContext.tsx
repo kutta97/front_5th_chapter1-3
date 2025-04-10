@@ -1,5 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { Notification } from "../types/notification.ts";
+import NotificationSystem from "../components/NotificationSystem.tsx";
 
 interface NotificationContextType {
   notifications: Notification[];
@@ -48,6 +49,7 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
       }}
     >
       {children}
+      <NotificationSystem />
     </NotificationContext.Provider>
   );
 };
